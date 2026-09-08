@@ -1,3 +1,15 @@
+> ## ⚠️ This project is no longer maintained
+>
+> As of September 2026, `chiadog` is archived and read-only. It is **not** receiving updates, bug
+> fixes, security patches, or compatibility fixes for new Chia releases. Issues and pull requests
+> are closed to new submissions.
+>
+> The code remains available under the MIT license — you are welcome to fork it and continue
+> development. Previously published Docker images remain available but are frozen and will not be
+> updated.
+>
+> Thank you to everyone who used, reported issues, and contributed to `chiadog` over the years. 🐕
+
 <p align="center">
     <img src="./docs/logo.jpg" />
 </p>
