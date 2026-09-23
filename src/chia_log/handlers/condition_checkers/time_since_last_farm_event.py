@@ -8,6 +8,14 @@ from . import HarvesterConditionChecker
 from ...parsers.harvester_activity_parser import HarvesterActivityMessage
 
 
+def _format_duration(seconds: int) -> str:
+    """Format a duration as minutes and seconds once it's long enough to matter."""
+    if seconds < 60:
+        return f"{seconds} seconds"
+    minutes, secs = divmod(seconds, 60)
+    return f"{minutes}m {secs}s"
+
+
 class TimeSinceLastFarmEvent(HarvesterConditionChecker):
     """Check that elapsed time since last eligible farming event was
     inline with expectations. Usually every < 10 seconds.
@@ -35,7 +43,7 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
         if seconds_since_last > self._warning_threshold:
             message = (
                 f"Experiencing networking issues? Harvester did not participate in any challenge "
-                f"for {seconds_since_last} seconds. It's now working again."
+                f"for {_format_duration(seconds_since_last)}. It's now working again."
             )
             logging.warning(message)
             event = Event(
@@ -45,7 +53,7 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
             # This threshold seems to be surpassed multiple times per day
             # on the current network. So it only generates an INFO log.
             logging.info(
-                f"Last farming event was {seconds_since_last} seconds ago."
+                f"Last farming event was {_format_duration(seconds_since_last)} ago."
                 " Usually every 9-10 seconds. No reason to worry if it happens "
                 " up to 20 times daily."
             )

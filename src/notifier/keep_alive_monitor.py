@@ -13,6 +13,14 @@ from confuse import ConfigView
 from . import EventService, Event, EventType, EventPriority
 
 
+def _format_duration(seconds: int) -> str:
+    """Format a duration as minutes and seconds once it's long enough to matter."""
+    if seconds < 60:
+        return f"{seconds} seconds"
+    minutes, secs = divmod(seconds, 60)
+    return f"{minutes}m {secs}s"
+
+
 class KeepAliveMonitor:
     """Runs a separate thread to monitor time passed
     since last keep-alive event was received (for all services)
@@ -77,7 +85,7 @@ class KeepAliveMonitor:
                 if seconds_since_last >= threshold:
                     message = (
                         f"Your {service.name} is unhealthy! "
-                        + f"No healthy events received for {seconds_since_last} seconds."
+                        + f"No healthy events received for {_format_duration(seconds_since_last)}."
                         + "\n(This check can be adjusted.)"
                     )
                     logging.warning(message)
